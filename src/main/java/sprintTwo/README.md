@@ -81,7 +81,7 @@ public class EmployeePrinter {
 
 public class EmployeeRepository {
     public void saveToDatabase(Employee employee) {
-        System.out.println("Saving " + employee.getName() + " to database...");
+        System.out.println("Saving " + employee.getName() + " to database");
         // DB 저장 로직 (가정)
     }
 }
@@ -176,3 +176,77 @@ public class Main {
         System.out.println("Found user: " + found.getName());
     }
 }
+```
+
+
+## Stream API의 map과 flatMap의 차이점을 설명하고, 각각의 활용 사례를 예시 코드와 함께 설명해주세요.
+
+### Map
+스트림의 각 요소를 하나씩 매핑하여 값이나 타입을 변환하기 위한 중간 연산 메소드
+
+입력값 : Stream<> 
+
+반환값 : Stream<>
+
+
+예시 - String 문자열의 리스트를 넘겨받아 각 문자열을 대문자로 변환하는 코드
+
+```Java
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class MapExample {
+    public static void main(String[] args) {
+        List<String> names = Arrays.asList("alice", "bob", "charlie");
+
+        //메소드 참조
+        List<String> upperCaseNames = names.stream()
+                                           .map(String::toUpperCase)
+                                           .toList();
+        //람다식                                   
+        List<String> upperCaseNames = names.stream()
+                                           .map(name -> name.toUpperCase())
+                                           .toList();
+                                           .toList();                                   
+        
+
+        System.out.println(upperCaseNames); // [ALICE, BOB, CHARLIE]
+    }
+}
+```
+
+
+### flatMap
+
+다차원 스트림의 각 요소들을 모두 꺼내어 모두 이어붙여서 하나의 1차원 스트림으로 평탄화(Flat)하는 메소드
+
+입력값 : Stream<Stream<T>>
+
+반환값 : Stream<>
+
+
+예시
+
+```Java
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class FlatMapListExample {
+    public static void main(String[] args) {
+        
+        List<List<String>> listOfLists = Arrays.asList(
+            Arrays.asList("a", "b"),
+            Arrays.asList("c", "d", "e"),
+            Arrays.asList("f")
+        );
+        
+        List<String> flatList = listOfLists.stream()
+            .flatMap(innerList -> innerList.stream())
+            .toList();
+
+        System.out.println(flatList); // [a, b, c, d, e, f]
+    }
+}
+```
