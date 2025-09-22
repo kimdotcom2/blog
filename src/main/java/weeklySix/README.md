@@ -123,7 +123,7 @@ public class MemberServiceSpringTx {
 2. ViewResolver 사용
 3. 웹 페이지 렌더링
 
-@ResitController
+@RestController
 1. 객체를 JSON으로 반환
 2. MessageConverter
 3. REST API 개발
